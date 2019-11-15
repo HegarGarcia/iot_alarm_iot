@@ -1,12 +1,18 @@
+from grove.grove_button import GroveButton
+from grove.grove_led import GroveLed
 import time
-from grove.factory import Factory
+# connect to pin 5 (slot D5)
+PIN = 5
+button = GroveButton(PIN)
+led = GroveLed(16)
 
-pin = 12
-button = Factory.getButton("GPIO-HIGH", pin)
-
+def on_press(t):
+  print('Button is pressed')
+  led.on()
+def on_release(t):
+  print("Button is released, pressed for {0} seconds".format(round(t,6)))
+  led.off()
+button.on_press = on_press
+button.on_release = on_release
 while True:
-    if button.is_pressed():
-        print('Button is pressed')
-    else:
-        print('Button is released')
-    time.sleep(1)
+  time.sleep(1)
