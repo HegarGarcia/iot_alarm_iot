@@ -10,28 +10,31 @@ PIN = 5
 button = GroveButton(PIN)
 led = GroveLed(16)
 
-press = dt.now()
-release = dt.now()
-
 baseSecTimer = input("Please select the timing beat")
 print("Timing base selected, now its {} secs".format(baseSecTimer))
 
-button.on_press = press
-button.on_release = release
+def on_Press(t):
+	"""
+	funcion para imprimir current status
+	"""
+	print("SI funciona el boton, imprimire t:", t)
+
+def on_Release(t):
+	"""
+	funcion como controlador, iniciaria nuestras funciones 
+	y hara algo con el valor obtenido del time
+	"""
+	print("Liberado: ", round(t,2))
+
+def get_time_onseconds(time1, time2):
+	deltaTime = time2 - time1
+	return deltaTime.total_seconds()
+
+button.on_press = on_Press
+button.on_release = on_Release
+
 while True:
-    
-	elapse = release-press
-	if elapse.total_seconds() > 5 :
-		print("asdas")
-		startEngine()
-# def metronome():
-# 	while True:	
-# 		led.on()
-# 		time.sleep(baseSecTimer/2)
-# def initialize_metrome():
-# 	t = threading.Thread(target=metronome)
-# 	t.daemon = True
-# 	t.start()
+	time.sleep(1)
 def startEngine():
 	print("Starting Morse Detector")
 	time.sleep(2)
@@ -39,7 +42,7 @@ def startEngine():
  
 	pinNumber = get_Ping_Code()
 	print(pinNumber)
- 
+
 def get_Ping_Code(pinCode = []):
 	while len(pinCode) < 4:
 		print("Leyendo la posicion {} del pin de 4 digitos".format(len(pinCode)))
@@ -55,8 +58,7 @@ def get_Ping_Code(pinCode = []):
 		get_Ping_Code(pinCode)
 	return pinCode
         
-def pin_String(codeString = ""):
-    
+def pin_String(codeString = ""):    
 	while len(codeString) < 5:
 		button.on_press = press
 		button.on_release = release
@@ -71,9 +73,7 @@ def pin_String(codeString = ""):
 			print("Tu string: {},  ahora lleva una . mas".format(codeString))
 			pin_String(codeString)
 		else:
-			print("NOse que pusiste")
+			print("Nose que pusiste")
 			pin_String(codeString)
 	return codeString 
-
-
 
