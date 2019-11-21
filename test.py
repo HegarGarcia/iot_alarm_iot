@@ -22,9 +22,11 @@ def startEngine():
 	print("Starting Morse Detector")
 	time.sleep(2)
 	print("Please press button to start submit your 4-digit pin")
+	return True
 
 def get_Ping_Code(t):
 	global codeString
+	print ("PIng code: ", pinCode, "LEngth: ", len(pinCode))
 	if len(pinCode) < 4:
 		print("Leyendo la posicion {} del pin de 4 digitos".format(len(pinCode)))
 
@@ -77,11 +79,12 @@ def on_Release(t):
 	if not onProcess and t > 6:
 		startEngine()
 		blink()
-		get_Ping_Code(t)
+		return True
 	elif onProcess and len(pinCode) == 4 and t > 6:
 		print("Apagando!")
 	elif onProcess:
 		get_Ping_Code(t)
+		return True
 	else:
 		print("NO entre!")
 
