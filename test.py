@@ -88,3 +88,6 @@ def on_Release(t):
 
 button.on_press = on_Press
 button.on_release = on_Release
+#start script
+while True:
+    time.sleep(1)
