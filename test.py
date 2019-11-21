@@ -1,36 +1,72 @@
 from grove.grove_button import GroveButton
 from grove.grove_led import GroveLed
 import time
+from datetime import datetime as dt
+from morseDict import MORSE_CODE_DICT
 from grove.factory import Factory
-
-
 # connect to pin 5 (slot D5)
 PIN = 5
 button = GroveButton(PIN)
 led = GroveLed(16)
-lcd = Factory.getDisplay("JHD1802")
-rows, cols = lcd.size()
-print("LCD model: {}".format(lcd.name))
-print("LCD type : {} x {}".format(cols, rows))
 
-lcd.setCursor(0, 0)
-lcd.write("hello world!")
-lcd.setCursor(0, cols - 1)
-lcd.write('X')
-lcd.setCursor(rows - 1, 0)
+press = dt.now()
+release = dt.now()
 
-for i in range(cols):
-  lcd.write(chr(ord('A') + i))
-  
-time.sleep(3)
-lcd.clear()
-def on_press(t):
-  print('Button is pressed')
-  led.on()
-def on_release(t):
-  print("Button is released, pressed for {0} seconds".format(round(t,6)))
-  led.off()
-button.on_press = on_press
-button.on_release = on_release
+baseSecTimer = input("Please select the timing beat")
+print("Timing base selected, now its {} secs".format(baseSecTimer))
+
 while True:
-  time.sleep(1)
+	button.on_press = press
+	button.on_release = release
+
+	elapse = release-press
+	if elapse.second > 5 :
+		print("asdas")
+		startEngine()
+
+
+def startEngine():
+	print("Starting Morse Detector")
+	time.sleep(2)
+	print("Please press button to start submit your 4-digit pin")
+ 
+	pinNumber = get_Ping_Code()
+	print(pinNumber)
+
+def get_Ping_Code(pinCode = []):
+	while len(pinCode) < 4:
+		print("Leyendo la posicion {} del pin de 4 digitos".format(len(pinCode)))
+  
+		#Itera hasta tener una string de 5 digitos 
+		codeString = pin_String()
+		#string valida, sino volvemos a iterar
+		if codeString in MORSE_CODE_DICT.values():
+			pinConvertido = MORSE_CODE_DICT.keys()[MORSE_CODE_DICT.values().index(codeString)]
+			pinCode.append(pinConvertido)
+		else:
+			print("Pin no valido, repetir digitos!")
+		get_Ping_Code(pinCode)
+	return pinCode
+        
+def pin_String(codeString = ""):
+    
+	while len(codeString) < 5:
+		button.on_press = press
+		button.on_release = release
+
+		defRelease = release - press
+		if defRelease.second < (2/baseSecTimer):
+			codeString += '-'
+			print("Tu string: {},  ahora lleva una - mas".format(codeString))
+			pin_String(codeString)
+		elif defRelease.second < (1/baseSecTimer):
+			codeString += '.'
+			print("Tu string: {},  ahora lleva una . mas".format(codeString))
+			pin_String(codeString)
+		else:
+			print("NOse que pusiste")
+			pin_String(codeString)
+	return codeString 
+
+
+
