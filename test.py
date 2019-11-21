@@ -19,7 +19,7 @@ while True:
 	button.on_press = press
 	button.on_release = release
 
-	elapse = timedelta(press-release)
+	elapse = release-press
 	if elapse.total_seconds() > 5 :
 		print("asdas")
 		startEngine()
@@ -32,7 +32,7 @@ def startEngine():
  
 	pinNumber = get_Ping_Code()
 	print(pinNumber)
-
+ 
 def get_Ping_Code(pinCode = []):
 	while len(pinCode) < 4:
 		print("Leyendo la posicion {} del pin de 4 digitos".format(len(pinCode)))
@@ -54,7 +54,7 @@ def pin_String(codeString = ""):
 		button.on_press = press
 		button.on_release = release
 
-		elapse = timedelta(press-release)
+		elapse = press-release
 		if elapse.total_seconds() (2/baseSecTimer):
 			codeString += '-'
 			print("Tu string: {},  ahora lleva una - mas".format(codeString))
