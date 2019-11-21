@@ -57,11 +57,10 @@ def pin_String(t):
 			print("Nose que pusiste")
 
 def blink():
-	while True:
-		led.on()
-		time.sleep(baseSecTimer / 2.0)
-		led.off()
-		time.sleep(baseSecTimer)
+	led.on()
+	time.sleep(baseSecTimer / 2.0)
+	led.off()
+	time.sleep(baseSecTimer)
   
 def on_Press(t):
     	"""
