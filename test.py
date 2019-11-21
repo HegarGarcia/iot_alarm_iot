@@ -25,7 +25,7 @@ def startEngine():
 
 def get_Ping_Code(t):
 	global codeString
-	while len(pinCode) < 4:
+	if len(pinCode) < 4:
 		print("Leyendo la posicion {} del pin de 4 digitos".format(len(pinCode)))
 
 		pin_String(t)
@@ -43,7 +43,7 @@ def get_Ping_Code(t):
 
 def pin_String(t):
 	global codeString
-	while len(codeString) < 5:
+	if len(codeString) < 5:
 		
 		if t > (2/baseSecTimer):
 			codeString += '-'
@@ -53,7 +53,6 @@ def pin_String(t):
 			print("Tu string: {},  ahora lleva una . mas".format(codeString))
 		else:
 			print("Nose que pusiste")
-	return codeString 
 
 def blink():
 	while True:
