@@ -1,9 +1,10 @@
 from grove.grove_button import GroveButton
 from grove.grove_led import GroveLed
-from datetime import datetime as dt, timedelta
+from datetime import datetime as dt
 import time
 from morseDict import MORSE_CODE_DICT
 from grove.factory import Factory
+import threading
 # connect to pin 5 (slot D5)
 PIN = 5
 button = GroveButton(PIN)
@@ -15,16 +16,22 @@ release = dt.now()
 baseSecTimer = input("Please select the timing beat")
 print("Timing base selected, now its {} secs".format(baseSecTimer))
 
+button.on_press = press
+button.on_release = release
 while True:
-	button.on_press = press
-	button.on_release = release
-
+    
 	elapse = release-press
 	if elapse.total_seconds() > 5 :
 		print("asdas")
 		startEngine()
-
-
+# def metronome():
+# 	while True:	
+# 		led.on()
+# 		time.sleep(baseSecTimer/2)
+# def initialize_metrome():
+# 	t = threading.Thread(target=metronome)
+# 	t.daemon = True
+# 	t.start()
 def startEngine():
 	print("Starting Morse Detector")
 	time.sleep(2)
