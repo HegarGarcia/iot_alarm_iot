@@ -1,7 +1,7 @@
 from grove.grove_button import GroveButton
 from grove.grove_led import GroveLed
+from datetime import datetime as dt, timedelta
 import time
-from datetime import datetime as dt
 from morseDict import MORSE_CODE_DICT
 from grove.factory import Factory
 # connect to pin 5 (slot D5)
@@ -19,8 +19,8 @@ while True:
 	button.on_press = press
 	button.on_release = release
 
-	elapse = release-press
-	if elapse.second > 5 :
+	elapse = timedelta(press-release)
+	if elapse.total_seconds() > 5 :
 		print("asdas")
 		startEngine()
 
@@ -54,12 +54,12 @@ def pin_String(codeString = ""):
 		button.on_press = press
 		button.on_release = release
 
-		defRelease = release - press
-		if defRelease.second < (2/baseSecTimer):
+		elapse = timedelta(press-release)
+		if elapse.total_seconds() (2/baseSecTimer):
 			codeString += '-'
 			print("Tu string: {},  ahora lleva una - mas".format(codeString))
 			pin_String(codeString)
-		elif defRelease.second < (1/baseSecTimer):
+		elif elapse.total_seconds() < (1/baseSecTimer):
 			codeString += '.'
 			print("Tu string: {},  ahora lleva una . mas".format(codeString))
 			pin_String(codeString)
