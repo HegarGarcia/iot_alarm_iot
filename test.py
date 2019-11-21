@@ -17,39 +17,7 @@ print("Timing base selected, now its {} secs".format(baseSecTimer))
 pinCode= []
 codeString = ''
 onProcess = False
-def on_Press(t):
-	"""
-	funcion para imprimir current status
-	"""
-	print("SI funciona el boton, imprimire t:", t)
 
-def on_Release(t):
-	global onProcess
-	"""
-	funcion como controlador, iniciaria nuestras funciones 
-	y hara algo con el valor obtenido del time
-	"""
-	print("Liberado: ", round(t,2))
-	if not onProcess and t > 6:
-		startEngine()
-		blink()
-		get_Ping_Code(t)
-	elif onProcess and len(pinCode) == 4 and t > 6:
-		print("Apagando!")
-	elif onProcess:
-		get_Ping_Code(t)
-	else:
-		print("NO entre!")
-
-def get_time_onseconds(time1, time2):
-	deltaTime = time2 - time1
-	return deltaTime.total_seconds()
-
-button.on_press = on_Press
-button.on_release = on_Release
-
-while True:
-	time.sleep(1)
 def startEngine():
 	print("Starting Morse Detector")
 	time.sleep(2)
@@ -93,3 +61,30 @@ def blink():
 		time.sleep(baseSecTimer / 2.0)
 		led.off()
 		time.sleep(baseSecTimer)
+  
+def on_Press(t):
+    	"""
+	funcion para imprimir current status
+	"""
+	print("SI funciona el boton, imprimire t:", t)
+
+def on_Release(t):
+	global onProcess
+	"""
+	funcion como controlador, iniciaria nuestras funciones 
+	y hara algo con el valor obtenido del time
+	"""
+	print("Liberado: ", round(t,2))
+	if not onProcess and t > 6:
+		startEngine()
+		blink()
+		get_Ping_Code(t)
+	elif onProcess and len(pinCode) == 4 and t > 6:
+		print("Apagando!")
+	elif onProcess:
+		get_Ping_Code(t)
+	else:
+		print("NO entre!")
+
+button.on_press = on_Press
+button.on_release = on_Release
