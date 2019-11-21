@@ -86,10 +86,16 @@ def on_Release(t):
 		get_Ping_Code(t)
 		return True
 	else:
-		print("NO entre!")
+		print("No entre!")
+		led.on()
+		time.sleep(0.4)
+		led.off()
+  
+	print("ON proces:", onProcess)
 
 button.on_press = on_Press
 button.on_release = on_Release
 #start script
 while True:
     time.sleep(1)
+	
