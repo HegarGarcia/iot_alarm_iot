@@ -57,10 +57,10 @@ def pin_String(t):
 	if len(codeString) < 5:
 		print "\n\nEvaluando tiempo...\n\tTiempo pasado: " + str(round(t,3))
 		if t >= (baseSecTimer - Tolerance) and t <= (baseSecTimer + Tolerance):
-			codeString += '-'
+			codeString += '.'
 			print("Tu string: {}, adding: -".format(codeString))
 		elif t >= ((baseSecTimer * 3) - Tolerance) and t <= ((baseSecTimer * 3) + Tolerance):
-			codeString += '.'
+			codeString += '-'
 			print("Tu string: {}, adding: .".format(codeString))
 		else:
 			print("No pude detectar tu input")
