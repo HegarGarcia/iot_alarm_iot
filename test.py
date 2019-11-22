@@ -19,9 +19,11 @@ codeString = ''
 onProcess = False
 
 def startEngine():
+	global onProcess
 	print("Starting Morse Detector")
 	time.sleep(2)
 	print("Please press button to start submit your 4-digit pin")
+	onProcess = True
 
 def get_Ping_Code(t):
 	global codeString
