@@ -58,10 +58,10 @@ def pin_String(t):
 		print "\n\nEvaluando tiempo...\n\tTiempo pasado: " + str(round(t,3))
 		if t >= (baseSecTimer - Tolerance) and t <= (baseSecTimer + Tolerance):
 			codeString += '.'
-			print("Tu string: {}, adding: -".format(codeString))
-		elif t >= ((baseSecTimer * 3) - Tolerance) and t <= ((baseSecTimer * 3) + Tolerance):
-			codeString += '-'
 			print("Tu string: {}, adding: .".format(codeString))
+		elif t >= ((baseSecTimer * 2) - Tolerance) and t <= ((baseSecTimer * 2) + Tolerance):
+			codeString += '-'
+			print("Tu string: {}, adding: -".format(codeString))
 		else:
 			print("No pude detectar tu input")
 		inicializar_blink()
@@ -111,15 +111,15 @@ def check_pincode():
 	pinCodeMutation = list(pinCode)
 	pin_code_toString = "".join(pinCodeMutation)
 	if len(pin_code_toString) == 4:
-		print "Pin code validated!"
 		match = authenticate_method(pin_code_toString)
 		if match:
-			print "Welcome: {}, your pin code is:{}".format(match["name"], match["pin_number"])
+			print "\n\n\n \tWelcome: {}, your pin code is:{}".format(match["name"], match["pin_number"])
 		else:
-			print "Authentication Failed, No se ha encontrado usuario con ese PIN"
+			print "\n\n\n \tAuthentication Failed, No se ha encontrado usuario con ese PIN"
 		pinCode = []
 		time.sleep(1)
 		led.off()
+		print "\n\t Saliendo del proceso..."
 		onProcess = False
 	else:
 		print "Invalid Pin!, try againg"
@@ -153,7 +153,7 @@ def on_Release(t):
 		time.sleep(0.4)
 		led.off()
   
-	print("ON proces:", onProcess)
+	print("PROCESS STATUS: " + str(onProcess))
 
 button.on_press = on_Press
 button.on_release = on_Release
