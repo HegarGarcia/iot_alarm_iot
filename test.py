@@ -5,9 +5,10 @@ from grove.factory import Factory
 from datetime import datetime as dt
 from morseDict import MORSE_CODE_DICT
 
-import os
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes, hmac
+import threading
+# import os
+# from cryptography.hazmat.backends import default_backend
+# from cryptography.hazmat.primitives import hashes, hmac
 
 # connect to pin 5 (slot D5)
 PIN = 5
@@ -32,10 +33,8 @@ def startEngine():
 
 def get_Ping_Code(t):
 	global codeString
-	print ("PIng code: ", pinCode, "LEngth: ", len(pinCode))
 	if len(pinCode) < 4:
-		print("Leyendo la posicion {} del pin de 4 digitos".format(len(pinCode)))
-
+		print "Ping Code: {}, Llevas {}/4 digitos de tu PIN".format(pinCode, len(pinCode))
 		pin_String(t)
 		##validate after adding user signal (dot or dash)
 		if len(codeString) == 5:
@@ -48,31 +47,45 @@ def get_Ping_Code(t):
 			else:
 				print("Pin no valido, repetir digitos!")
 				codeString = ''
-	return pinCode
+	else:
+		time.sleep(1.5)
+		print "Validando Tu PIN: " + str(pinCode)
+		check_pincode()
 
 def pin_String(t):
 	global codeString
 	if len(codeString) < 5:
-		
-		if t > (2/baseSecTimer):
+		print "\n\nEvaluando tiempo...\n\tTiempo pasado: " + str(round(t,3))
+		if t >= (baseSecTimer - Tolerance) and t <= (baseSecTimer + Tolerance):
 			codeString += '-'
-			print("Tu string: {},  ahora lleva una - mas".format(codeString))
-		elif t < (1/baseSecTimer):
+			print("Tu string: {}, adding: -".format(codeString))
+		elif t >= ((baseSecTimer * 2) - Tolerance) and t <= ((baseSecTimer * 2) + Tolerance):
 			codeString += '.'
-			print("Tu string: {},  ahora lleva una . mas".format(codeString))
+			print("Tu string: {}, adding: .".format(codeString))
 		else:
-			print("Nose que pusiste")
+			print("No pude detectar tu input")
+		inicializar_blink()
 
 def blink():
 	led.on()
-	time.sleep(baseSecTimer / 2.0)
+	time.sleep(Tolerance)
 	led.off()
-	time.sleep(baseSecTimer)
+	time.sleep(Tolerance)
+ 
+def inicializar_blink():
+	threading.Thread(target=signal_to_user).start()
 
+##Para feedback visual
+def signal_to_user():
+    for num in range(1, 3):
+		led.on()
+		time.sleep(0.1)
+		led.off()
+		time.sleep(0.1)
 
 ### Seccion de REQUESt COAP
 def check_pincode():
-	global pinCode
+	global pinCode, onProcess
 	"""
 	Funcion para enviar peticion coap y hacer algo con la respuesta!
 	Objetivo: Simular la peticion COAP Al servidor e imprime resultado!
@@ -86,16 +99,18 @@ def check_pincode():
 			print "Welcome: {}, your pin code is:{}".format(match["name"], match["pin_number"])
 		else:
 			print "Authentication Failed, No se ha encontrado usuario con ese PIN"
-			pinCode = []
+		pinCode = []
+		time.sleep(1)
+		led.off()
+		onProcess = False
 	else:
 		print "Invalid Pin!, try againg"
 		pinCode = []
 ##controllers!!
 def on_Press(t):
-    	"""
+	"""
 	funcion para imprimir current status
 	"""
-	print("SI funciona el boton, imprimire t:", t)
 
 def on_Release(t):
 	global onProcess
