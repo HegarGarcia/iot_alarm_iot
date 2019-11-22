@@ -74,12 +74,15 @@ def on_Release(t):
 	funcion como controlador, iniciaria nuestras funciones 
 	y hara algo con el valor obtenido del time
 	"""
-	print("Liberado: ", round(t,2))
-	if not onProcess and t > 6:
+	print("Liberado: ", t)
+	if not onProcess and t > 4:
 		startEngine()
 		blink()
 	elif onProcess and len(pinCode) == 4 and t > 6:
 		print("Apagando!")
+		onProcess = False
+		led.off()
+		time.sleep(1)
 	elif onProcess:
 		get_Ping_Code(t)
 	else:
