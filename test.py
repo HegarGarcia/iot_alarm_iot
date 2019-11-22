@@ -59,7 +59,7 @@ def pin_String(t):
 		if t >= (baseSecTimer - Tolerance) and t <= (baseSecTimer + Tolerance):
 			codeString += '-'
 			print("Tu string: {}, adding: -".format(codeString))
-		elif t >= ((baseSecTimer * 2) - Tolerance) and t <= ((baseSecTimer * 2) + Tolerance):
+		elif t >= ((baseSecTimer * 3) - Tolerance) and t <= ((baseSecTimer * 3) + Tolerance):
 			codeString += '.'
 			print("Tu string: {}, adding: .".format(codeString))
 		else:
@@ -84,6 +84,24 @@ def signal_to_user():
 		time.sleep(0.1)
 
 ### Seccion de REQUESt COAP
+def authenticate_method(pin):
+    	"""
+	Esta funcion simula la el controlador de la peticion COAP
+	Nos regresa un dict, vacio si no encontro usuario con ese pin
+	Objetivo: Obtener un matching con el PIN
+	"""
+	users = (
+		{"name": "MIke", "pin_number": "4004"},
+		{"name": "Maria", "pin_number":"5045"},
+		{"name": "Moctzyma", "pin_number":"1029"},
+		{"name": "Itzel", "pin_number":"3202"}
+	)
+	match = {}
+	for user in users:
+		if pin == user["pin_number"]:
+			match = user
+	return match
+
 def check_pincode():
 	global pinCode, onProcess
 	"""
@@ -141,23 +159,5 @@ button.on_press = on_Press
 button.on_release = on_Release
 #start script
 while True:
-    time.sleep(1)
+	time.sleep(1)
 	
- 
-def authenticate_method(pin):
-	"""
-	Esta funcion simula la el controlador de la peticion COAP
-	Nos regresa un dict, vacio si no encontro usuario con ese pin
-	Objetivo: Obtener un matching con el PIN
-	"""
-	users = (
-		{"name": "MIke", "pin_number": "4004"},
-		{"name": "Maria", "pin_number":"5045"},
-		{"name": "Moctzyma", "pin_number":"1029"},
-		{"name": "Itzel", "pin_number":"3202"}
-	)
-	match = {}
-	for user in users:
-		if pin == user["pin_number"]:
-			match = user
-	return match
