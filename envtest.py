@@ -33,3 +33,4 @@ def encrypt_data():
     pin_hash.update("4040")
     pin_hash.finalize()
 ##problemas con el envtest.py file, dice que no soporta el algoritmo pero, idk,
+# encrypt_data()

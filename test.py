@@ -3,7 +3,7 @@ from grove.grove_button import GroveButton
 from grove.grove_led import GroveLed
 from grove.factory import Factory
 from datetime import datetime as dt
-from morseDict import MORSE_CODE_DICT
+from morseDict import MORSE_CODE_DICT_NUMBERS as MORSE_CODE_DICT
 
 import threading
 # import os
@@ -16,7 +16,8 @@ button = GroveButton(PIN)
 led = GroveLed(16)
 
 #setting variables for out login process
-baseSecTimer = input("Please select the timing beat in secs: ")
+# baseSecTimer = input("Please select the timing beat in secs: ")
+baseSecTimer = 0.5
 Tolerance =  baseSecTimer / 2.0
 print("Timing base selected, now its {} secs".format(baseSecTimer))
 
@@ -24,11 +25,16 @@ pinCode= []
 codeString = ''
 onProcess = False
 
-def startEngine():
+def changeProcess():
 	global onProcess
-	print("Starting Morse Detector")
-	time.sleep(2)
-	print("Please press button to start submit your 4-digit pin")
+	if onProcess:
+		print"Closing Morse Detector, Deleting data...."
+		time.sleep(1.5)
+		print "Press any key to exit..."
+	else:
+		print("Starting Morse Detector...")
+		time.sleep(2)
+		print("Please press button to start submit your 4-digit pin")
 	onProcess = True
 
 def get_Ping_Code(t):
@@ -67,10 +73,11 @@ def pin_String(t):
 		inicializar_blink()
 
 def blink():
-	led.on()
-	time.sleep(Tolerance)
-	led.off()
-	time.sleep(Tolerance)
+	while onProcess:
+		led.on()
+		time.sleep(Tolerance)
+		led.off()
+		time.sleep(Tolerance)
  
 def inicializar_blink():
 	threading.Thread(target=signal_to_user).start()
@@ -103,7 +110,7 @@ def authenticate_method(pin):
 	return match
 
 def check_pincode():
-	global pinCode, onProcess
+	global pinCode
 	"""
 	Funcion para enviar peticion coap y hacer algo con la respuesta!
 	Objetivo: Simular la peticion COAP Al servidor e imprime resultado!
@@ -120,7 +127,7 @@ def check_pincode():
 		time.sleep(1)
 		led.off()
 		print "\n\t Saliendo del proceso..."
-		onProcess = False
+		changeProcess()
 	else:
 		print "Invalid Pin!, try againg"
 		pinCode = []
@@ -131,18 +138,17 @@ def on_Press(t):
 	"""
 
 def on_Release(t):
-	global onProcess
 	"""
 	funcion como controlador, iniciaria nuestras funciones 
 	y hara algo con el valor obtenido del time
 	"""
 	print("Liberado: ", t)
 	if not onProcess and t > 4:
-		startEngine()
+		changeProcess()
 		blink()
-	elif onProcess and len(pinCode) == 4 and t > 6:
+	elif onProcess and t > 8:
 		print("Apagando!")
-		onProcess = False
+		changeProcess()
 		led.off()
 		time.sleep(1)
 	elif onProcess:
@@ -157,7 +163,9 @@ def on_Release(t):
 
 button.on_press = on_Press
 button.on_release = on_Release
+
 #start script
-while True:
-	time.sleep(1)
-	
+try:
+	message = raw_input("\nPresiona cualquier tecla para salir...\n")
+finally:
+	print "Bye"	
