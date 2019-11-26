@@ -1,0 +1,24 @@
+from coapthon.client.helperclient import HelperClient
+import json
+
+def message_to_json(message):
+    message = json.dumps(message)
+    return message
+host = "192.168.1.80"
+port = 5683
+
+
+def getUser(pinCode):
+    path ="/device/button"
+    code = {
+        "code": pinCode
+    }
+    payload = message_to_json(code)
+    
+    client = HelperClient(server=(host, port))
+    response = client.post(path,payload,None, None)
+    responseArray= response.pretty_print().split("\n")
+    result_payload = json.loads(responseArray[len(responseArray) - 2])
+    
+    client.stop() 
+    return result_payload

@@ -4,6 +4,7 @@ from grove.grove_led import GroveLed
 from grove.factory import Factory
 from datetime import datetime as dt
 from morseDict import MORSE_CODE_DICT_NUMBERS as MORSE_CODE_DICT
+from coapReq import getUser
 
 import threading
 # import os
@@ -73,7 +74,7 @@ def pin_String(t):
 		inicializar_blink()
 
 def blink():
-	while onProcess:
+	if onProcess:
 		led.on()
 		time.sleep(Tolerance)
 		led.off()
@@ -91,23 +92,6 @@ def signal_to_user():
 		time.sleep(0.1)
 
 ### Seccion de REQUESt COAP
-def authenticate_method(pin):
-    	"""
-	Esta funcion simula la el controlador de la peticion COAP
-	Nos regresa un dict, vacio si no encontro usuario con ese pin
-	Objetivo: Obtener un matching con el PIN
-	"""
-	users = (
-		{"name": "MIke", "pin_number": "4004"},
-		{"name": "Maria", "pin_number":"5045"},
-		{"name": "Moctzyma", "pin_number":"1029"},
-		{"name": "Itzel", "pin_number":"3202"}
-	)
-	match = {}
-	for user in users:
-		if pin == user["pin_number"]:
-			match = user
-	return match
 
 def check_pincode():
 	global pinCode
@@ -118,9 +102,9 @@ def check_pincode():
 	pinCodeMutation = list(pinCode)
 	pin_code_toString = "".join(pinCodeMutation)
 	if len(pin_code_toString) == 4:
-		match = authenticate_method(pin_code_toString)
+		match = getUser(pin_code_toString)
 		if match:
-			print "\n\n\n \tWelcome: {}, your pin code is:{}".format(match["name"], match["pin_number"])
+			print "\n\n\n \tWelcome: {}, your pin code is:{}".format(match["name"], match["code"])
 		else:
 			print "\n\n\n \tAuthentication Failed, No se ha encontrado usuario con ese PIN"
 		pinCode = []
