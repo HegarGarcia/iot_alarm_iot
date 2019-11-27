@@ -32,11 +32,12 @@ def changeProcess():
 		print"Closing Morse Detector, Deleting data...."
 		time.sleep(1.5)
 		print "Press any key to exit..."
+		onProcess = False
 	else:
 		print("Starting Morse Detector...")
 		time.sleep(2)
 		print("Please press button to start submit your 4-digit pin")
-	onProcess = True
+		onProcess = True
 
 def get_Ping_Code(t):
 	global codeString
@@ -104,12 +105,11 @@ def check_pincode():
 	if len(pin_code_toString) == 4:
 		match = getUser(pin_code_toString)
 		if match:
-			print "\n\n\n \tWelcome: {}, your pin code is:{}".format(match["name"], match["code"])
+			print "\n\n\n \tWelcome: {}, your pin code is:{}".format(match['name'], match['pin_code'])
 		else:
 			print "\n\n\n \tAuthentication Failed, No se ha encontrado usuario con ese PIN"
 		pinCode = []
 		time.sleep(1)
-		led.off()
 		print "\n\t Saliendo del proceso..."
 		changeProcess()
 	else:

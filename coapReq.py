@@ -4,7 +4,7 @@ import json
 def message_to_json(message):
     message = json.dumps(message)
     return message
-host = "192.168.1.80"
+host = "148.213.190.38"
 port = 5683
 
 
@@ -20,5 +20,6 @@ def getUser(pinCode):
     responseArray= response.pretty_print().split("\n")
     result_payload = json.loads(responseArray[len(responseArray) - 2])
     
-    client.stop() 
+    client.stop()
+    client.close()
     return result_payload
