@@ -7,6 +7,7 @@ from morseDict import MORSE_CODE_DICT_NUMBERS as MORSE_CODE_DICT
 from coapReq import getUser
 
 import threading
+import sys
 # import os
 # from cryptography.hazmat.backends import default_backend
 # from cryptography.hazmat.primitives import hashes, hmac
@@ -18,14 +19,14 @@ led = GroveLed(16)
 
 #setting variables for out login process
 # baseSecTimer = input("Please select the timing beat in secs: ")
-baseSecTimer = 0.5
+baseSecTimer = 0.3
 Tolerance =  baseSecTimer / 2.0
 print("Timing base selected, now its {} secs".format(baseSecTimer))
 
 pinCode= []
 codeString = ''
 onProcess = False
-
+	
 def changeProcess():
 	global onProcess
 	if onProcess:
@@ -74,6 +75,7 @@ def pin_String(t):
 			print("No pude detectar tu input")
 		inicializar_blink()
 
+##Para feedback visual
 def blink():
 	if onProcess:
 		led.on()
@@ -84,16 +86,14 @@ def blink():
 def inicializar_blink():
 	threading.Thread(target=signal_to_user).start()
 
-##Para feedback visual
 def signal_to_user():
-    for num in range(1, 3):
+	for num in range(1, 3):
 		led.on()
 		time.sleep(0.1)
 		led.off()
 		time.sleep(0.1)
 
 ### Seccion de REQUESt COAP
-
 def check_pincode():
 	global pinCode
 	"""
@@ -115,6 +115,7 @@ def check_pincode():
 	else:
 		print "Invalid Pin!, try againg"
 		pinCode = []
+
 ##controllers!!
 def on_Press(t):
 	"""

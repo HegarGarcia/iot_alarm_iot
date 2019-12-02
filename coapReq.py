@@ -15,11 +15,22 @@ def getUser(pinCode):
     }
     payload = message_to_json(code)
     
-    client = HelperClient(server=(host, port))
-    response = client.post(path,payload,None, None)
-    responseArray= response.pretty_print().split("\n")
-    result_payload = json.loads(responseArray[len(responseArray) - 2])
+    response = None
+    result_good = None
+    try:
+        client = HelperClient(server=(host, port))
+        response = client.post(path,payload,None, None)
+    except:
+        print "Something went wrong, try it againg!"
+    else:
+        if response:
+            print response
+            result_good = response.payload() 
+            print result_good   
+                
+    # responseArray= response.pretty_print().split("\n")
+    # result_payload = json.loads(responseArray[len(responseArray) - 2])
     
     client.stop()
     client.close()
-    return result_payload
+    return result_good
