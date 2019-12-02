@@ -4,7 +4,7 @@ import json
 def message_to_json(message):
     message = json.dumps(message)
     return message
-host = "148.213.190.38"
+host = "192.168.1.74"
 port = 5683
 
 

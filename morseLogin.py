@@ -14,7 +14,6 @@ import sys
 # from cryptography.hazmat.primitives import hashes, hmac
 
 mraa_pin = getGpioLookup("GPIO%02d" % 12)
-buzzer = upmBuzzer.Buzzer(mraa_pin)
 button = GroveButton(5)
 led = GroveLed(16)
 
@@ -22,12 +21,7 @@ chords = [upmBuzzer.BUZZER_DO, upmBuzzer.BUZZER_RE, upmBuzzer.BUZZER_MI,
 		upmBuzzer.BUZZER_FA, upmBuzzer.BUZZER_SOL, upmBuzzer.BUZZER_LA,
 		upmBuzzer.BUZZER_SI]
 
-for chord_ind in range (0,7):
-	# play each note for a half second
-	print(buzzer.playSound(chords[chord_ind], 500000))
-	time.sleep(0.1)
  
-del buzzer
 #setting variables for out login process
 # base_time_seconds = input("Please select the timing beat in secs: ")
 base_time_seconds = 0.3
@@ -111,17 +105,27 @@ def check_pincode():
 	Funcion para enviar peticion coap y hacer algo con la respuesta!
 	Objetivo: Simular la peticion COAP Al servidor e imprime resultado!
 	"""
+	buzzer = upmBuzzer.Buzzer(mraa_pin)
+ 
 	pinCodeMutation = list(pinCode)
 	pin_code_toString = "".join(pinCodeMutation)
 	if len(pin_code_toString) == 4:
 		match = getUser(pin_code_toString)
 		if match:
 			print "\n\n\n \tWelcome: {}, your pin code is:{}".format(match['name'], match['pin_code'])
+			for chord_ind in range (0,3):
+				# play each note for a half second
+				print(buzzer.playSound(chords[chord_ind], 500000))
+				time.sleep(0.1)
 		else:
 			print "\n\n\n \tAuthentication Failed, No se ha encontrado usuario con ese PIN"
 		pinCode = []
 		time.sleep(1)
 		print "\n\t Saliendo del proceso..."
+		for chord_ind in range (3,7):
+				# play each note for a half second
+				print(buzzer.playSound(chords[chord_ind], 900000))
+				time.sleep(0.1)
 		changeProcess()
 	else:
 		print "Invalid Pin!, try againg"
