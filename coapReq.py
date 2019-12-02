@@ -25,7 +25,8 @@ def getUser(pinCode):
     else:
         if response:
             print response
-            result_good = response.payload() 
+            print "Posible payload: ", response.payload()
+            result_good = str(response.payload()) 
             print result_good   
                 
     # responseArray= response.pretty_print().split("\n")

@@ -143,7 +143,7 @@ def on_Release(t):
 	y hara algo con el valor obtenido del time
 	"""
 	print("Liberado: ", t)
-	if not onProcess and t > 4:
+	if not onProcess and t > 3:
 		changeProcess()
 		blink()
 	elif onProcess and t > 8:
