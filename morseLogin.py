@@ -119,13 +119,13 @@ def check_pincode():
 				time.sleep(0.1)
 		else:
 			print "\n\n\n \tAuthentication Failed, No se ha encontrado usuario con ese PIN"
-		pinCode = []
-		time.sleep(1)
-		print "\n\t Saliendo del proceso..."
-		for chord_ind in range (3,7):
+			for chord_ind in range (3,7):
 				# play each note for a half second
 				print(buzzer.playSound(chords[chord_ind], 900000))
 				time.sleep(0.1)
+		pinCode = []
+		time.sleep(1)
+		print "\n\t Saliendo del proceso..."	
 		changeProcess()
 	else:
 		print "Invalid Pin!, try againg"

@@ -17,11 +17,13 @@ def getUser(pinCode):
     
     response = None
     result_good = None
+    client = None
     try:
         client = HelperClient(server=(host, port))
         response = client.post(path,payload,None, None)
     except:
         print "Something went wrong, try it againg!"
+        client.stop()
     else:
         if response:
             print response
