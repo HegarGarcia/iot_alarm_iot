@@ -98,7 +98,7 @@ def signal_to_user():
 		led.off()
 		time.sleep(0.1)
 
-### Seccion de REQUESt COAP
+### Seccion de match COAP
 def check_pincode():
 	global pinCode
 	"""
@@ -111,18 +111,20 @@ def check_pincode():
 	pin_code_toString = "".join(pinCodeMutation)
 	if len(pin_code_toString) == 4:
 		match = getUser(pin_code_toString)
-		if match:
-			print "\n\n\n \tWelcome: {}, your pin code is:{}".format(match['name'], match['pin_code'])
+		if match["code"] == 69:
+			print "\n\n\n \tWelcome: {}, your pin code is:{}".format(match['payload']['user']['name'], match['payload']['user']['morseCode'])
 			for chord_ind in range (0,3):
 				# play each note for a half second
 				print(buzzer.playSound(chords[chord_ind], 500000))
 				time.sleep(0.1)
-		else:
-			print "\n\n\n \tAuthentication Failed, No se ha encontrado usuario con ese PIN"
+		elif  match["code"] == 131:
+			print "\n\n\n \t Unauthorized, No se ha encontrado usuario con ese PIN"
 			for chord_ind in range (3,7):
 				# play each note for a half second
 				print(buzzer.playSound(chords[chord_ind], 900000))
 				time.sleep(0.1)
+		else:
+			print "Error"
 		pinCode = []
 		time.sleep(1)
 		print "\n\t Saliendo del proceso..."	
