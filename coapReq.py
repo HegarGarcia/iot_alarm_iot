@@ -1,10 +1,10 @@
 from coapthon.client.helperclient import HelperClient
-import json
+import json, time
 
 def message_to_json(message):
     message = json.dumps(message)
     return message
-host = "192.168.1.74"
+host = "148.213.191.129"
 port = 5683
 
 
@@ -19,8 +19,11 @@ def getUser(pinCode):
     result_good = {}
     client = None   
     try:
+        time.sleep(2)
+        print "\n\n\tIniciando Request con COAP..."
         client = HelperClient(server=(host, port))
-        response = client.post(path,payload,None, None,)
+        response = client.post(path,payload,None,None)
+        print response
         result_good['code'] = response.code
         result_good['payload'] = json.loads(response.payload)
     except:
@@ -30,4 +33,7 @@ def getUser(pinCode):
     
     client.stop()
     client.close()
+    time.sleep(1)
+    print"\n\n\t...All Good, request: \n\t\t"
     return result_good
+
