@@ -4,7 +4,7 @@ import json, time
 def message_to_json(message):
     message = json.dumps(message)
     return message
-host = "148.213.190.187"
+host = "148.213.191.129"
 port = 5683
 
 
@@ -22,8 +22,7 @@ def getUser(pinCode):
         time.sleep(2)
         print "\n\n\tIniciando Request con COAP..."
         client = HelperClient(server=(host, port))
-        print client
-        response = client.post(path,payload,None, timeout=5)
+        response = client.post(path,payload,None,None)
         print response
         result_good['code'] = response.code
         result_good['payload'] = json.loads(response.payload)
@@ -35,5 +34,6 @@ def getUser(pinCode):
     client.stop()
     client.close()
     time.sleep(1)
-    print"\n\n\t...All Good, request: \n\t\t" + str(result_good)
+    print"\n\n\t...All Good, request: \n\t\t"
     return result_good
+
