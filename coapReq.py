@@ -1,5 +1,5 @@
 from coapthon.client.helperclient import HelperClient
-import json
+import json, time
 
 def message_to_json(message):
     message = json.dumps(message)
@@ -19,6 +19,8 @@ def getUser(pinCode):
     result_good = {}
     client = None   
     try:
+        time.sleep(2)
+        print "\n\n\tIniciando Request con COAP..."
         client = HelperClient(server=(host, port))
         response = client.post(path,payload,None, None,)
         result_good['code'] = response.code
@@ -30,4 +32,6 @@ def getUser(pinCode):
     
     client.stop()
     client.close()
+    time.sleep(1)
+    print"\n\n\t...All Good, request: \n\t\t" + str(result_good)
     return result_good
