@@ -111,11 +111,14 @@ def check_pincode():
 	pin_code_toString = "".join(pinCodeMutation)
 	if len(pin_code_toString) == 4:
 		match = getUser(pin_code_toString)
-		if match["code"] == 69:
+		if not match:
+			print "\n Couldn't get a response from coap, exit..."
+			buzzer.playSound(chords[3], 300000)
+		elif match["code"] == 69:
 			print "\n\n\n \tWelcome: {}, your pin code is:{}".format(match['payload']['user']['name'], match['payload']['user']['morseCode'])
 			for chord_ind in range (0,3):
 				# play each note for a half second
-				print(buzzer.playSound(chords[chord_ind], 500000))
+				buzzer.playSound(chords[chord_ind], 500000)
 				time.sleep(0.1)
 		elif  match["code"] == 131:
 			print "\n\n\n \t Unauthorized, No se ha encontrado usuario con ese PIN"
