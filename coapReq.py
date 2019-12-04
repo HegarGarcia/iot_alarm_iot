@@ -22,7 +22,8 @@ def getUser(pinCode):
         time.sleep(2)
         print "\n\n\tIniciando Request con COAP..."
         client = HelperClient(server=(host, port))
-        response = client.post(path,payload,None, None,)
+        response = client.post(path,payload,None, timeout=5,)
+        print response
         result_good['code'] = response.code
         result_good['payload'] = json.loads(response.payload)
     except:
